@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/MARN-book-finder-client/precache-manifest.b5f4c179e1f2dec620a9f78a0f117dc9.js"
+  "/MARN-book-finder-client/precache-manifest.e78521da1ff9a82953ebf9e1c314bea7.js"
 );
 
 self.addEventListener('message', (event) => {
