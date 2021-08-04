@@ -7,7 +7,8 @@ import SavedBooks from "./pages/SavedBooks";
 import Navbar from "./components/Navbar";
 
 const client = new ApolloClient({
-  uri: process.env.GRAPHQL_URL || "http://localhost:4000/",
+  uri:
+    process.env.GRAPHQL_URL || "https://marn-book-finder-server.herokuapp.com/",
   cache: new InMemoryCache(),
 });
 
