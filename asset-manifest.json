@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/MARN-book-finder-client/static/css/main.a13d3d6a.chunk.css",
+    "main.js": "/MARN-book-finder-client/static/js/main.1979998e.chunk.js",
+    "main.js.map": "/MARN-book-finder-client/static/js/main.1979998e.chunk.js.map",
+    "runtime-main.js": "/MARN-book-finder-client/static/js/runtime-main.c2e55d65.js",
+    "runtime-main.js.map": "/MARN-book-finder-client/static/js/runtime-main.c2e55d65.js.map",
+    "static/css/2.63f31f8d.chunk.css": "/MARN-book-finder-client/static/css/2.63f31f8d.chunk.css",
+    "static/js/2.3a20ec1c.chunk.js": "/MARN-book-finder-client/static/js/2.3a20ec1c.chunk.js",
+    "static/js/2.3a20ec1c.chunk.js.map": "/MARN-book-finder-client/static/js/2.3a20ec1c.chunk.js.map",
+    "index.html": "/MARN-book-finder-client/index.html",
+    "precache-manifest.b5f4c179e1f2dec620a9f78a0f117dc9.js": "/MARN-book-finder-client/precache-manifest.b5f4c179e1f2dec620a9f78a0f117dc9.js",
+    "service-worker.js": "/MARN-book-finder-client/service-worker.js",
+    "static/css/2.63f31f8d.chunk.css.map": "/MARN-book-finder-client/static/css/2.63f31f8d.chunk.css.map",
+    "static/css/main.a13d3d6a.chunk.css.map": "/MARN-book-finder-client/static/css/main.a13d3d6a.chunk.css.map",
+    "static/js/2.3a20ec1c.chunk.js.LICENSE.txt": "/MARN-book-finder-client/static/js/2.3a20ec1c.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c2e55d65.js",
+    "static/css/2.63f31f8d.chunk.css",
+    "static/js/2.3a20ec1c.chunk.js",
+    "static/css/main.a13d3d6a.chunk.css",
+    "static/js/main.1979998e.chunk.js"
+  ]
+}
