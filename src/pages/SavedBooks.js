@@ -1,5 +1,4 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   Jumbotron,
   Container,
@@ -7,40 +6,15 @@ import {
   Card,
   Button,
 } from "react-bootstrap";
+import { useMutation, useQuery } from "@apollo/client";
 
 import Auth from "../utils/auth";
+import { GET_USER } from "../graphql-queries-mutations/queries";
+import { REMOVE_BOOK } from "../graphql-queries-mutations/mutations";
 import { removeBookId } from "../utils/localStorage";
+import ServerAlert from "../components/ServerAlert";
 
 const SavedBooks = () => {
-  const GET_USER = gql`
-    query Query {
-      me {
-        _id
-        username
-        email
-        bookCount
-        savedBooks {
-          bookId
-          authors
-          description
-          title
-          link
-          image
-        }
-      }
-    }
-  `;
-
-  const REMOVE_BOOK = gql`
-    mutation RemoveBookMutation($removeBookBookId: ID!) {
-      removeBook(bookId: $removeBookBookId) {
-        bookCount
-      }
-    }
-  `;
-
-  const [userData, setUserData] = useState("hello");
-
   const token = Auth.loggedIn() ? Auth.getToken() : null;
 
   const [removeBook] = useMutation(REMOVE_BOOK, {
@@ -50,8 +24,8 @@ const SavedBooks = () => {
         authorization: `Bearer ${token}`,
       },
     },
-    onError: (error) => {
-      return <h1>There's an error.</h1>;
+    onError: () => {
+      return ServerAlert;
     },
   });
 
@@ -69,12 +43,11 @@ const SavedBooks = () => {
   }
 
   if (error) {
-    throw new Error("something went wrong!");
+    return ServerAlert;
   }
 
   if (data) {
-    const newData = data.me;
-    console.log("this is the data", newData);
+    const userData = data.me;
 
     // create function that accepts the book's mongo _id value as param and deletes the book from the database
     const handleDeleteBook = async (bookId) => {
@@ -88,7 +61,7 @@ const SavedBooks = () => {
         // upon success, remove book's id from localStorage
         removeBookId(bookId);
       } catch (err) {
-        console.error(err);
+        return ServerAlert;
       }
     };
 
@@ -101,15 +74,14 @@ const SavedBooks = () => {
         </Jumbotron>
         <Container>
           <h2>
-            {console.log("this is the user data", userData)}
-            {newData.savedBooks.length
-              ? `Viewing ${newData.savedBooks.length} saved ${
-                  newData.savedBooks.length === 1 ? "book" : "books"
+            {userData.savedBooks.length
+              ? `Viewing ${userData.savedBooks.length} saved ${
+                  userData.savedBooks.length === 1 ? "book" : "books"
                 }:`
               : "You have no saved books!"}
           </h2>
           <CardColumns>
-            {newData.savedBooks.map((book) => {
+            {userData.savedBooks.map((book) => {
               return (
                 <Card key={book.bookId} border="dark">
                   {book.image ? (

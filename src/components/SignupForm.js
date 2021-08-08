@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
 import Auth from "../utils/auth";
+import { SIGNUP } from "../graphql-queries-mutations/mutations";
 
 const SignupForm = () => {
   // set initial form state
@@ -16,21 +17,12 @@ const SignupForm = () => {
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
 
-  const SIGNUP = gql`
-    mutation AddUserMutation($addUserInput: NewUserInput!) {
-      addUser(input: $addUserInput) {
-        token
-        user {
-          _id
-          username
-          email
-        }
-      }
-    }
-  `;
   const [signup] = useMutation(SIGNUP, {
     onCompleted: (data) => {
       Auth.login(data.addUser.token);
+    },
+    onError: () => {
+      setShowAlert(true);
     },
   });
 

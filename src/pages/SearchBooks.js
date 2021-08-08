@@ -8,27 +8,16 @@ import {
   Card,
   CardColumns,
 } from "react-bootstrap";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
 import Auth from "../utils/auth";
 import { searchGoogleBooks } from "../utils/bookFetcher";
 import { saveBookIds, getSavedBookIds } from "../utils/localStorage";
-// import SAVEBOOK from "../mutations";
+import { SAVEBOOK } from "../graphql-queries-mutations/mutations";
+import ServerAlert from "../components/ServerAlert";
 
 const SearchBooks = () => {
   const token = Auth.loggedIn() ? Auth.getToken() : null;
-
-  const SAVEBOOK = gql`
-    mutation Mutation($saveBookInput: SaveBookInput!) {
-      saveBook(input: $saveBookInput) {
-        bookCount
-        username
-        savedBooks {
-          bookId
-        }
-      }
-    }
-  `;
 
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
@@ -44,7 +33,7 @@ const SearchBooks = () => {
     return () => saveBookIds(savedBookIds);
   });
 
-  const [saveBook, { loading, error }] = useMutation(SAVEBOOK, {
+  const [saveBook] = useMutation(SAVEBOOK, {
     context: {
       headers: {
         "Content-Type": "application/json",
@@ -54,11 +43,10 @@ const SearchBooks = () => {
     onCompleted: (data) => {
       const bookToSave = data.saveBook.savedBooks.pop();
 
-      console.log("this is the book to save", bookToSave);
-      if (error) {
-        window.replace("./login");
-      }
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+    },
+    onError: () => {
+      return ServerAlert;
     },
   });
 
@@ -90,7 +78,7 @@ const SearchBooks = () => {
       setSearchedBooks(bookData);
       setSearchInput("");
     } catch (err) {
-      console.error(err);
+      return ServerAlert;
     }
   };
 
@@ -112,7 +100,7 @@ const SearchBooks = () => {
         },
       });
     } catch (err) {
-      console.error(err);
+      return ServerAlert;
     }
   };
 

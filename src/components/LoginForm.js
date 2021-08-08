@@ -1,31 +1,21 @@
-// see SignupForm.js for comments
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
 import Auth from "../utils/auth";
-// import LOGIN from "../mutations";
+import { LOGIN } from "../graphql-queries-mutations/mutations";
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: "", password: "" });
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const LOGIN = gql`
-    mutation LoginMutation($loginInput: LoginInput!) {
-      login(input: $loginInput) {
-        token
-        user {
-          _id
-          username
-          email
-        }
-      }
-    }
-  `;
-  const [login, { loading, error }] = useMutation(LOGIN, {
+
+  const [login] = useMutation(LOGIN, {
     onCompleted: (data) => {
-      console.log(data);
       Auth.login(data.login.token);
+    },
+    onError: () => {
+      setShowAlert(true);
     },
   });
 
@@ -51,7 +41,6 @@ const LoginForm = () => {
         },
       });
     } catch (err) {
-      console.error(err);
       setShowAlert(true);
     }
 
